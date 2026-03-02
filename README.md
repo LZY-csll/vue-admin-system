@@ -3,6 +3,17 @@
 基于 Vue3 + Vite + Pinia + Element Plus 的后台管理系统模板。
 这是我跟着 B 站视频教程做的项目，但并不是完全照搬，而是在理解原理的基础上做了结构优化与功能增强。
 
+## 📷 项目截图
+
+### 登录页
+![登录页](./docs/images/login.png)
+
+### 用户管理页
+![用户管理页](./docs/images/userForm.png)
+
+### 多级菜单（递归组件实现）和首页
+![多级菜单](./docs/images/dashboard.png)
+
 📌 仓库地址：https://github.com/LZY-csll/vue-admin-system
 
 🚀 项目说明
