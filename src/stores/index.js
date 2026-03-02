@@ -24,7 +24,7 @@ export const useAllDataStore = defineStore("AllData", () => {
         }
     }
     function updateTags(item) {
-        // tags.value = tags.value.filter(tag => tag.name !== item.name)
+
         let index = tags.value.findIndex(tag => tag.name === item.name)
         tags.value.splice(index, 1)
     }

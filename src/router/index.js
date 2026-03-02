@@ -61,7 +61,7 @@ export function setupRouterGuards(pinia) {
 
     router.beforeEach((to, from) => {
 
-        // 1. 白名单：登录页、404页直接放行
+
         if (!store.token) {
             if (to.path !== '/login')
                 return '/login'

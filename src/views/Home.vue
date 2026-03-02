@@ -65,29 +65,14 @@ import { ref ,reactive,onMounted, onBeforeUnmount, onUnmounted} from 'vue'
 import * as echarts from 'echarts';
 
 import {getChartData,getCountData,getTableData} from "@/api/apiData/homeData"
-// import axios from 'axios'
-//拿到全局注册的api
-// const {proxy} = getCurrentInstance()
+
 const getImageUrl = (user)=>{
     return new URL(`../assets/images/${user}.png`,import.meta.url).href
 }
 const tableData = ref([])
 const countData = ref([])
 
-// const tableData = ref([
-//     {
-//       name: "Java",
-//       todayBuy: 100,
-//       monthBuy: 200,
-//       totalBuy: 300,
-//     },
-//     {
-//       name: "Python",
-//       todayBuy: 100,
-//       monthBuy: 200,
-//       totalBuy: 300,
-//     }
-// ])
+
 const tableLabel = ref([
     {props:"name",label:"课程"},
     {props:"todayBuy",label:"今日购买"},
@@ -95,11 +80,7 @@ const tableLabel = ref([
     {props:"totalBuy",label:"总购买"},
 ])
 
-// const getTableData =async ()=>{
-//     const data = await proxy.$api.getTableData()
-//     console.log(data);
-//     tableData.value = data.tableData   
-// }
+
 
 const getData = async()=>{
     const tdata = await getTableData()
@@ -118,8 +99,7 @@ const videoEchart = ref(null)
 let threeEchart = null
 const observer = ref(null)
 const getEchart = async()=>{
-    // const chData = await getChartData()   //获取有关echarts的数据
-    // console.log(chData);
+    
     const {orderData,userData,videoData} = await getChartData()
     xOptions.xAxis.data = orderData.date
     xOptions.series = Object.keys(orderData.data[0]).map(val=>({
@@ -184,7 +164,7 @@ const getEchart = async()=>{
 
 //这个是折线图和柱状图 两个图表共用的公共配置
 const xOptions = reactive({
-      // 图例文字颜色
+      
       textStyle: {
         color: "#333",
       },
@@ -192,12 +172,12 @@ const xOptions = reactive({
       grid: {
         left: "20%",
       },
-      // 提示框
+     
       tooltip: {
         trigger: "axis",
       },
       xAxis: {
-        type: "category", // 类目轴
+        type: "category", 
         data: [],
         axisLine: {
           lineStyle: {
@@ -241,29 +221,6 @@ const pieOptions = reactive({
 })
 
 
-// const main = ref(null)
-// onMounted(()=>{
-//     console.log(main.value);
-//     const myChart = echarts.init(main.value);
-//     // 绘制图表
-// myChart.setOption({
-//   title: {
-//     text: 'ECharts 入门示例'
-//   },
-//   tooltip: {},
-//   xAxis: {
-//     data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
-//   },
-//   yAxis: {},
-//   series: [
-//     {
-//       name: '销量',
-//       type: 'bar',
-//       data: [5, 20, 36, 10, 10, 20]
-//     }
-//   ]
-// });
-// })
 
 
 onMounted(getData)

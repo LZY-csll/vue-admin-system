@@ -17,6 +17,6 @@ const EnvConfig = {
 export default {
     env,
     ...EnvConfig[env],
-    // mock为false，默认调用所有真实接口(当然我这里只有development里的baseApi是真的，但也是本地mock模拟的)
+
     mock: false
 }

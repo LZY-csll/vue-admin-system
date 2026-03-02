@@ -1,12 +1,12 @@
 <template>
     <div class="body-login">
-        <el-form :model="loginForm" class="login-container">
+        <el-form :model="loginForm" class="login-container" :rules="rules">
             <h1>欢迎登录</h1>
-            <el-form-item>
+            <el-form-item prop="username">
                 <el-input type="input" placeholder="请输入账号" v-model="loginForm.username"></el-input>
             </el-form-item>
-            <el-form-item>
-                <el-input type="input" placeholder="请输入密码" v-model="loginForm.password"></el-input>
+            <el-form-item prop="password">
+                <el-input type="password" placeholder="请输入密码" v-model="loginForm.password"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="handleLogin">登录</el-button>
@@ -26,16 +26,23 @@ const loginForm = reactive({
     username:'',
     password:''
 })
+const rules =reactive( {
+  username: [
+    { required: true, message: '请输入用户名', trigger: 'blur' }
+  ],
+  password: [
+    { required: true, message: '请输入密码', trigger: 'blur' }
+  ]
+})
 
-// console.log('menuList',store.menuList);
+
 const router = useRouter()
 const handleLogin = async()=>{
     const res = await getMenu(loginForm)
-    // console.log(res,'res');
+    
     store.updateMenuList(res.menuList)
     store.token = res.token
-    // console.log('menuList登录后',store.menuList);
-    // console.log(store.token);
+    
     store.updateAuthPaths() //更新权限数组
     console.log('权限数组',store.authPaths);
     

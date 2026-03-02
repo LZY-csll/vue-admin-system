@@ -50,9 +50,7 @@
     width="35%"
     :before-close="handleClose"
   >
-       <!--需要注意的是设置了:inline="true"，
-		会对el-select的样式造成影响，我们通过给他设置一个class=select-clearn
-		在css进行处理-->
+       
     <el-form :inline="true"  :model="formUser" :rules="rules" ref="userForm">
       <el-row>
         <el-col :span="12">
@@ -124,9 +122,7 @@ const config = reactive({
 
 const getData = async()=>{
     let data = await getUserData(config)
-    // console.log(data);
     
-    // console.log(data.list);
     tableData.value=data.list.map((item)=>({
         ...item,
         sexLabel:item.sex==1?'男':'女'
@@ -220,10 +216,10 @@ const onSubmit = async () => {
     try{
         await userForm.value.validate()
         let res = null
-        // console.log(formUser);
+        
         if(action.value==='add') {
             res = await addUser(formUser)
-            // console.log(res);  
+             
         }
         if(action.value==='edit') {
             res=await editUser(formUser)
@@ -247,7 +243,7 @@ const handleEdit = (val)=>{
     
         dialogVisible.value = true
         action.value='edit'
-        // console.log(val);
+       
         nextTick(()=>{
             Object.assign(formUser,val)
         })

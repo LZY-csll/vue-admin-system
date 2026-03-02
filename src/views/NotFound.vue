@@ -35,7 +35,7 @@ const gohome = ()=>{
             align-items: center;
             padding: 20px;
     }
-/* 404数字样式 */
+
         .error-code {
             font-size: 8rem;
             font-weight: 700;
@@ -43,7 +43,7 @@ const gohome = ()=>{
             margin-bottom: 20px;
         }
 
-        /* 错误提示文本 */
+        
         .error-message {
             font-size: 1.2rem;
             margin-bottom: 30px;
@@ -51,7 +51,7 @@ const gohome = ()=>{
             color: #495057;
         }
 
-        /* 返回首页按钮 */
+        
         .back-home {
             display: inline-block;
             padding: 12px 24px;
@@ -67,11 +67,5 @@ const gohome = ()=>{
             background-color: #0056b3;
         }
 
-        /* 底部版权/备注信息 */
-        .footer {
-            position: absolute;
-            bottom: 20px;
-            font-size: 0.9rem;
-            color: #868e96;
-        }
+       
 </style>

@@ -5,7 +5,7 @@ export function getUserData(data) {
         {
             url: "/user/getUserData",
             method: "get",
-            data,       //data:data es6简写，为什么这里get请求用data，因为request里做了处理，会转为params     
+            data,
         }
     )
 }
@@ -15,7 +15,7 @@ export function deleteUser(data) {
         {
             url: "/user/deleteUser",
             method: "get",
-            data,       //data:data es6简写，为什么这里get请求用data，因为request里做了处理，会转为params     
+            data,
         }
     )
 }

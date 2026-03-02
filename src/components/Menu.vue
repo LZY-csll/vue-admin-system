@@ -27,7 +27,7 @@ const {item} = defineProps({
 
 const store = useAllDataStore()
 const handleMenu = (item)=>{
-    console.log(item);
+    
     store.selectMenu(item)
 }
 
