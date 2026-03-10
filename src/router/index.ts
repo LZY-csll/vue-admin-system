@@ -1,6 +1,6 @@
-import { createRouter, createWebHashHistory } from "vue-router"
+import { createRouter, createWebHashHistory, type RouteRecordRaw, type RouteLocationNormalized } from "vue-router"
 import { useAllDataStore } from "../stores"
-const routes = [
+const routes: RouteRecordRaw[] = [
     {
         path: "/",
         name: "main",
@@ -55,11 +55,11 @@ const router = createRouter({
 
 
 
-export function setupRouterGuards(pinia) {
+export function setupRouterGuards(pinia: any) {
     const store = useAllDataStore(pinia)
 
 
-    router.beforeEach((to, from) => {
+    router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized) => {
 
 
         if (!store.token) {

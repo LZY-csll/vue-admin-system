@@ -13,21 +13,22 @@
     </div>
 </template>
 
-<script setup>
-import { computed, ref } from 'vue';
+<script lang="ts" setup>
+
 import { useRoute, useRouter } from 'vue-router';
 import { useAllDataStore } from '../stores';
 import { storeToRefs } from 'pinia';
+import type { Tag } from '../stores';
 const route = useRoute()
 const router = useRouter()
 const store = useAllDataStore()
 const {tags} =  storeToRefs(store)
 
-const handleMenu = (tag)=>{
+const handleMenu = (tag:Tag)=>{
     router.push(tag.name)
     store.selectMenu(tag)     
 }
-const handleClose = (tag,index)=>{
+const handleClose = (tag:Tag,index:number)=>{
     
     const length = tags.value.length
     store.updateTags(tag)

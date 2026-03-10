@@ -15,14 +15,18 @@
     </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { reactive } from 'vue';
 import { getMenu } from '@/api/apiData/loginData';
 import { useAllDataStore } from '../stores';
 import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
 const store = useAllDataStore()
-const loginForm = reactive({
+type LoginForm = {
+    username:string
+    password:string
+}
+const loginForm = reactive<LoginForm>({
     username:'',
     password:''
 })

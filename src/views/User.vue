@@ -15,7 +15,7 @@
             
             <el-table-column 
             v-for="item in tableLabel" 
-            :key="item.name" 
+            :key="item.prop" 
             :prop="item.prop" 
             :label="item.label" 
             :width="item.width?item.width:125" 
@@ -103,18 +103,35 @@
   </el-dialog>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import {ref,onMounted, reactive, nextTick} from "vue"
 import { ElMessage,ElMessageBox } from "element-plus";   //用来做提示的element-plus组件
 import { deleteUser, getUserData ,addUser,editUser} from "../api/apiData/userUserData";
+import type{User,NewUser} from "@/api/apiData/userUserData"
+import type { FormInstance, FormRules } from 'element-plus'
 
-
-const tableData = ref([])
-const formInline = reactive({
+type UserWithSexLabel = User & {
+    sexLabel: "男"|"女"
+}
+type FormInline = {
+    keyWord:string
+}
+type Config = {
+    name:string
+    total:number
+    page:number
+}
+type TableLabel = {
+    prop:string
+    label:string
+    width?:number
+}
+const tableData = ref<UserWithSexLabel[]>([])
+const formInline = reactive<FormInline>({
     keyWord:""
 })
 
-const config = reactive({
+const config = reactive<Config>({
     name:'',
     total:0,
     page:1
@@ -129,7 +146,7 @@ const getData = async()=>{
     }))
     config.total = data.count
 } 
-const tableLabel = reactive([
+const tableLabel = reactive<TableLabel[]>([
     {
         prop:"name",
         label:"姓名",
@@ -161,13 +178,13 @@ const handleSearch = () => {
 }
 
 // 换页
-const handlePage = (value)=>{
+const handlePage = (value:any)=>{
     config.page=value
     getData()
 }
 
 // 删除
-const handleDelete =async (val)=>{
+const handleDelete =async (val:User)=>{
     ElMessageBox.confirm("你确定要删除吗？")
     .then(async ()=>{
         await deleteUser({id:val.id})
@@ -184,12 +201,20 @@ const handleDelete =async (val)=>{
     })
     
 }
+type FormUser =NewUser
 // 新增
-const dialogVisible=ref(false)
-const action=ref('add')
-const formUser= reactive({})
+const dialogVisible=ref<boolean>(false)
+const action=ref<string>('add')
+const formUser= reactive<FormUser>({
+    name:"",
+    age:1,
+    sex:1,
+    birth:"",
+    addr:""
+})
+const userForm = ref<FormInstance>()
 //表单校验规则
-const rules = reactive({
+const rules = reactive<FormRules<FormUser>>({
   name: [{ required: true, message: "姓名是必填项", trigger: "blur" }],
   age: [
     { required: true, message: "年龄是必填项", trigger: "blur" },
@@ -201,32 +226,32 @@ const rules = reactive({
 })
 const handleClose = ()=>{
     dialogVisible.value = false
-    userForm.value.resetFields()
+    userForm.value?.resetFields()
 }
 const handleCancel = ()=>{
     dialogVisible.value = false
-    userForm.value.resetFields()
+    userForm.value?.resetFields()
 }
 const handleAdd = ()=>{
     dialogVisible.value = true
     action.value='add'
 }
-const userForm = ref(null)
+
 const onSubmit = async () => {
     try{
-        await userForm.value.validate()
+        await userForm.value?.validate()
         let res = null
         
         if(action.value==='add') {
-            res = await addUser(formUser)
+            res = await addUser(formUser) 
              
         }
         if(action.value==='edit') {
-            res=await editUser(formUser)
+            res=await editUser(formUser as User)
         }
         if(res) {
             dialogVisible.value=false
-            userForm.value.resetFields()
+            userForm.value?.resetFields()
             getData()
         }
         
@@ -239,7 +264,7 @@ const onSubmit = async () => {
     }
 }
 // 编辑用户
-const handleEdit = (val)=>{
+const handleEdit = (val:any)=>{
     
         dialogVisible.value = true
         action.value='edit'

@@ -10,7 +10,7 @@
     </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { useAllDataStore } from '../stores';
 import { useRouter } from 'vue-router';
 const store = useAllDataStore()

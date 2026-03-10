@@ -59,21 +59,27 @@
     </el-row>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { ref ,reactive,onMounted, onBeforeUnmount, onUnmounted} from 'vue'
 
 import * as echarts from 'echarts';
 
 import {getChartData,getCountData,getTableData} from "@/api/apiData/homeData"
 
-const getImageUrl = (user)=>{
+import type{TableItem,CountItem} from "@/api/apiData/homeData"
+
+import type { ECharts, EChartsOption } from "echarts"
+const getImageUrl = (user:string)=>{
     return new URL(`../assets/images/${user}.png`,import.meta.url).href
 }
-const tableData = ref([])
-const countData = ref([])
+const tableData = ref<TableItem[]>([])
+const countData = ref<CountItem[]>([])
 
-
-const tableLabel = ref([
+type TableLabel = {
+    props:string
+    label:string
+}
+const tableLabel = ref<TableLabel[]>([
     {props:"name",label:"课程"},
     {props:"todayBuy",label:"今日购买"},
     {props:"monthBuy",label:"本月购买"},
@@ -91,13 +97,17 @@ const getData = async()=>{
     
     
 }
-const echart = ref(null)
-let oneEchart = null
-const userEchart = ref(null)
-let twoEchart = null
-const videoEchart = ref(null)
-let threeEchart = null
-const observer = ref(null)
+const echart = ref<HTMLDivElement|null>(null)
+let oneEchart:ECharts|null = null
+const userEchart = ref<HTMLDivElement|null>(null)
+let twoEchart:ECharts|null = null
+const videoEchart = ref<HTMLDivElement|null>(null)
+let threeEchart:ECharts|null = null
+const observer = ref<ResizeObserver|null>(null)
+type XOptions = echarts.EChartsOption & {
+    xAxis:{data:string[]}
+    series:any[]
+}
 const getEchart = async()=>{
     
     const {orderData,userData,videoData} = await getChartData()
@@ -107,10 +117,11 @@ const getEchart = async()=>{
         data:orderData.data.map(item=>item[val]),
         type:'line'
     }))
-    if(!oneEchart) {
+    if(!oneEchart&&echart.value) {
         oneEchart = echarts.init(echart.value)
+        oneEchart.setOption(xOptions)
     }
-    oneEchart.setOption(xOptions)    
+        
 
     // 对第二个图表进行渲染
     xOptions.xAxis.data = userData.map(item=>item.date) 
@@ -126,10 +137,11 @@ const getEchart = async()=>{
             type:"bar"
         }
     ]
-    if(!twoEchart) {
+    if(!twoEchart&&userEchart.value) {
         twoEchart = echarts.init(userEchart.value)
+        twoEchart.setOption(xOptions) 
     }
-    twoEchart.setOption(xOptions)  
+     
 
     // 对第三个饼状图进行渲染
     pieOptions.series = [
@@ -138,10 +150,11 @@ const getEchart = async()=>{
             type:"pie"
         }
     ]
-    if(!threeEchart) {
+    if(!threeEchart&&videoEchart.value) {
         threeEchart = echarts.init(videoEchart.value)
+        threeEchart.setOption(pieOptions)
     }
-    threeEchart.setOption(pieOptions)  
+      
 
     // 监听容器的变化
     observer.value = new ResizeObserver(()=>{
@@ -163,7 +176,7 @@ const getEchart = async()=>{
 
 
 //这个是折线图和柱状图 两个图表共用的公共配置
-const xOptions = reactive({
+const xOptions:XOptions = reactive({
       
       textStyle: {
         color: "#333",
@@ -203,7 +216,7 @@ const xOptions = reactive({
       series: [],
 })
 
-const pieOptions = reactive({
+const pieOptions:EChartsOption = reactive({
   tooltip: {
     trigger: "item",
   },

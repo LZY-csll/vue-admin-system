@@ -14,19 +14,19 @@
     
 </template>
 
-<script setup>
+<script lang="ts" setup>
+import { toRefs } from 'vue';
 import { useAllDataStore } from '../stores';
+import type { MenuItem as MenuItemType} from "@/api/apiData/loginData";
 defineOptions({
     name:"MenuItem"
 })
 
-const {item} = defineProps({
-    item:Object
-})
-
+const props = defineProps<{item:MenuItemType}>()
+const {item} = toRefs(props)
 
 const store = useAllDataStore()
-const handleMenu = (item)=>{
+const handleMenu = (item:MenuItemType)=>{
     
     store.selectMenu(item)
 }

@@ -1,5 +1,12 @@
-const env = import.meta.env.MODE || "prod"
-const EnvConfig = {
+type Env = "development" | "test" | "prod"
+
+type EnvItem = {
+    baseApi: string,
+    mockApi: string
+}
+
+const env = (import.meta.env.MODE as Env) || "prod"
+const EnvConfig: Record<Env, EnvItem> = {
     development: {
         baseApi: "/api",
         mockApi: "https://apifoxmock.com/m1/4068509-0-default/api",
@@ -14,9 +21,10 @@ const EnvConfig = {
     }
 }
 
-export default {
+const config = {
     env,
     ...EnvConfig[env],
 
     mock: false
 }
+export default config

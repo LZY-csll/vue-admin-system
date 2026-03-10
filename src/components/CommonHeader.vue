@@ -27,13 +27,13 @@
  
 </template>
 
-<script setup>
+<script lang="ts" setup>
 
 import { useRouter } from 'vue-router';
 import { useAllDataStore } from '../stores';
 
 
-const getImageUrl = (user)=> {
+const getImageUrl = (user:string)=> {
     return new URL(`../assets/images/${user}.png`,import.meta.url).href
 }
 const store = useAllDataStore()
