@@ -1,3 +1,24 @@
+## 🚀 TypeScript Version
+
+This project has been migrated to **TypeScript**.
+
+👉 The TypeScript version is available on the `ts-migration` branch.
+
+## ts迁移情况
+  
+### 工程层面
+已有 tsconfig.json、env.d.ts，入口是 main.ts。  
+路由（router）、状态（stores）、接口封装（request + apiData/*.ts）、核心页面（Home.vue、User.vue、Login.vue 等）都在用 TS 和类型。    
+  
+### 业务核心链路
+登录：loginData.ts + Login.vue 有明确参数和返回类型。  
+权限 & 菜单：MenuItem 类型贯穿接口、store、侧边栏组件。  
+用户管理：userUserData.ts + User.vue 里区分了 User / NewUser / 表单类型。  
+数据看板：homeData.ts + Home.vue 的表格、统计卡片、ECharts 实例和 option 都有类型约束。  
+
+### JS/TS 混用情况
+剩下主要是 mock 部分和少量没必要强类型化的 JS
+
 💼 Vue Admin System
 
 基于 Vue3 + Vite + Pinia + Element Plus 的后台管理系统模板。  
